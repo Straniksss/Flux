@@ -10,13 +10,13 @@
 
 Tasks • Roadmaps • Releases • Documentation • AI Prompts
 
-<br>
-
-<img src="https://img.shields.io/github/stars/Straniksss/Flux?style=for-the-badge">
-<img src="https://img.shields.io/github/license/Straniksss/Flux?style=for-the-badge">
-<img src="https://img.shields.io/github/last-commit/Straniksss/Flux?style=for-the-badge">
-
-</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/Electron-Latest-47848F?style=for-the-badge">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge">
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge">
+  <img src="https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Offline-First-7CFFC4?style=for-the-badge">
+</p>
 
 ---
 
