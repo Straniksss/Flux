@@ -1,6 +1,18 @@
 # <p align="center">
 
-# <img src="./assets/logo.png" width="128" alt="Flux Logo">
+<p align="center">
+  <img src="./assets/logo.png" width="320" alt="Flux Logo">
+</p>
+
+<h1 align="center">Flux</h1>
+
+<p align="center">
+  ✨ Premium Offline Project Manager
+</p>
+
+<p align="center">
+  Tasks • Roadmaps • Releases • AI Prompts • Documentation
+</p>
 
 #
 
