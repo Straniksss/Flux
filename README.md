@@ -1,79 +1,64 @@
-# <p align="center">
-
 <p align="center">
-  <img src="./assets/logo.png" width="320" alt="Flux Logo">
+  <img src="assets/logo.png" alt="Flux Tasks" width="220">
 </p>
 
-<h1 align="center">Flux</h1>
+<h1 align="center">Flux Tasks</h1>
 
 <p align="center">
   ✨ Premium Offline Project Manager
 </p>
 
 <p align="center">
-  Tasks • Roadmaps • Releases • AI Prompts • Documentation
+  Tasks • Roadmaps • Releases • Documentation • AI Prompts
 </p>
 
-#
-
-# Flux
-
-#
-
-### Premium Offline Project Manager
-
+<p align="center">
+  <img src="https://img.shields.io/badge/Electron-Latest-blue?style=for-the-badge">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge">
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge">
+  <img src="https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge">
 </p>
 
 ---
 
-## Overview
+## 🚀 About
 
-Flux is a modern offline project management application built for developers, creators and technical teams.
+Flux Tasks is a modern desktop application designed for developers, teams and creators who want complete control over their projects without relying on cloud services.
 
-It combines the best ideas from:
+Everything is stored locally.
 
-* Linear
-* Notion
-* Arc Browser
-* Raycast
-* Jira
-* Obsidian
-
-All data is stored locally.
-
-No cloud.
-
-No subscriptions.
-
-No accounts.
-
-No tracking.
+✔ Offline First
+✔ No Cloud Required
+✔ No Subscription
+✔ No Accounts
+✔ No Tracking
+✔ Fast & Private
 
 ---
 
-## Features
+## ✨ Features
 
-### 📋 Task Management
+### 📋 Smart Task Management
 
 Create and manage:
 
-* Bugs
-* Features
-* Releases
-* Refactors
-* Documentation
-* AI Prompts
+* 🐞 Bugs
+* ✨ Features
+* 🚀 Releases
+* 🔧 Refactors
+* 📝 Documentation
+* 🤖 AI Prompts
 
 ---
 
-### 🎨 Modern Liquid Glass UI
+### 🎨 Liquid Glass Interface
 
 Inspired by:
 
-* visionOS
-* macOS
+* Apple visionOS
 * Arc Browser
 * Linear
+* Raycast
 
 Features:
 
@@ -81,50 +66,37 @@ Features:
 * Glass effects
 * Acrylic blur
 * Smooth animations
-* Custom accent colors
+* Custom themes
 
 ---
 
-### 🗂 Projects
+### 🛣 Roadmaps
 
-Organize tasks by project.
+Plan future development.
 
-Examples:
-
-* Bamboo Browser
-* Flux
-* Personal Projects
-* Work Projects
-
----
-
-### 🛣 Roadmap
-
-Track future development.
-
-Create:
+Track:
 
 * Versions
 * Milestones
-* Feature plans
-* Release plans
+* Upcoming features
+* Release goals
 
 ---
 
 ### 📦 Release Management
 
-Manage releases:
+Organize releases with:
 
-* Version
-* Description
-* Changelog
-* Progress
+* Version tracking
+* Changelogs
+* Progress monitoring
+* Release notes
 
 ---
 
 ### 🤖 Prompt Library
 
-Store:
+Store and organize:
 
 * ChatGPT prompts
 * Gemini prompts
@@ -135,7 +107,7 @@ Store:
 
 ### 💻 Code Snippets
 
-Store:
+Save:
 
 * JavaScript
 * TypeScript
@@ -147,7 +119,7 @@ Store:
 * Bash
 * PowerShell
 
-Syntax highlighting included.
+With syntax highlighting.
 
 ---
 
@@ -157,28 +129,18 @@ Attach:
 
 * Images
 * PDFs
-* ZIP files
+* ZIP archives
 * Documentation
 * Logs
 
 ---
 
-### 📊 Dashboard
-
-Overview:
-
-* Active tasks
-* Completed tasks
-* Project progress
-* Upcoming releases
-
----
-
 ### 🔍 Global Search
 
-Search through:
+Instantly search:
 
 * Tasks
+* Projects
 * Descriptions
 * Prompts
 * Notes
@@ -186,39 +148,33 @@ Search through:
 
 ---
 
-## Workflow
+## 📊 Workflow
 
-Task Types:
+### Task Types
 
-🐞 Bug
+| Type             | Description              |
+| ---------------- | ------------------------ |
+| 🐞 Bug           | Track software issues    |
+| ✨ Feature        | New functionality        |
+| 🚀 Release       | Release planning         |
+| 🔧 Refactor      | Code improvements        |
+| 📝 Documentation | Guides and documentation |
+| 🤖 AI Prompt     | AI prompt storage        |
 
-✨ Feature
+### Task Statuses
 
-🚀 Release
-
-🔧 Refactor
-
-📝 Documentation
-
-🤖 AI Prompt
-
-Task Statuses:
-
-📌 Planned
-
-⏳ Waiting
-
-🚧 In Progress
-
-🧪 Testing
-
-✅ Completed
-
-❌ Cancelled
+| Status         | Description               |
+| -------------- | ------------------------- |
+| 📌 Planned     | Scheduled for future work |
+| ⏳ Waiting      | Awaiting action           |
+| 🚧 In Progress | Currently being worked on |
+| 🧪 Testing     | Validation and QA         |
+| ✅ Completed    | Successfully finished     |
+| ❌ Cancelled    | No longer required        |
 
 ---
 
-## Technology
+## 🏗 Technology Stack
 
 * Electron
 * React
@@ -230,209 +186,39 @@ Task Statuses:
 
 ---
 
-## License
+## 💾 Local Storage
+
+All data is stored locally:
+
+```text
+%APPDATA%/Flux Tasks/
+
+├── tasks.db
+├── backups/
+└── exports/
+```
+
+---
+
+## 🔒 Privacy
+
+Flux Tasks never uploads your data.
+
+Your projects remain:
+
+* Private
+* Offline
+* Local
+* Secure
+
+---
+
+## 📄 License
 
 MIT License
 
 ---
 
-## Описание
-
-Flux — современное локальное приложение для управления проектами, задачами и разработкой.
-
-Программа создана для разработчиков, команд и создателей проектов.
-
-Все данные хранятся локально.
-
-Без облака.
-
-Без подписок.
-
-Без аккаунтов.
-
-Без отслеживания.
-
----
-
-## Возможности
-
-### 📋 Управление задачами
-
-Создание и управление:
-
-* Багами
-* Функциями
-* Релизами
-* Рефакторингом
-* Документацией
-* AI-промтами
-
----
-
-### 🎨 Современный Liquid Glass интерфейс
-
-Вдохновлено:
-
-* visionOS
-* macOS
-* Arc Browser
-* Linear
-
-Особенности:
-
-* Настраиваемые градиенты
-* Стеклянные эффекты
-* Acrylic Blur
-* Плавные анимации
-* Выбор акцентного цвета
-
----
-
-### 🗂 Проекты
-
-Группировка задач по проектам.
-
-Примеры:
-
-* Bamboo Browser
-* Flux
-* Личные проекты
-* Рабочие проекты
-
----
-
-### 🛣 Roadmap
-
-Планирование разработки.
-
-Поддержка:
-
-* Версий
-* Этапов
-* Будущих функций
-* Планов релизов
-
----
-
-### 📦 Управление релизами
-
-Для каждого релиза:
-
-* Версия
-* Описание
-* Список изменений
-* Прогресс
-
----
-
-### 🤖 Библиотека промтов
-
-Хранение:
-
-* ChatGPT промтов
-* Gemini промтов
-* Claude промтов
-* Технических промтов
-
----
-
-### 💻 Хранилище кода
-
-Поддержка:
-
-* JavaScript
-* TypeScript
-* Python
-* JSON
-* HTML
-* CSS
-* SQL
-* Bash
-* PowerShell
-
-С подсветкой синтаксиса.
-
----
-
-### 📎 Вложения
-
-Поддержка:
-
-* Изображений
-* PDF
-* ZIP
-* Документов
-* Логов
-
----
-
-### 📊 Дашборд
-
-Отображает:
-
-* Активные задачи
-* Выполненные задачи
-* Прогресс проектов
-* Ближайшие релизы
-
----
-
-### 🔍 Глобальный поиск
-
-Поиск по:
-
-* Задачам
-* Описаниям
-* Промтам
-* Заметкам
-* Коду
-
----
-
-## Рабочий процесс
-
-Типы задач:
-
-🐞 Bug
-
-✨ Feature
-
-🚀 Release
-
-🔧 Refactor
-
-📝 Documentation
-
-🤖 AI Prompt
-
-Статусы:
-
-📌 Запланировано
-
-⏳ Ожидает
-
-🚧 В работе
-
-🧪 Тестирование
-
-✅ Выполнено
-
-❌ Отменено
-
----
-
-## Технологии
-
-* Electron
-* React
-* TypeScript
-* Vite
-* SQLite
-* Zustand
-* Framer Motion
-
----
-
-## Лицензия
-
-MIT License
+<p align="center">
+  Made with ❤️ for developers
+</p>
