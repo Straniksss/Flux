@@ -17,7 +17,7 @@
 
 ---
 
-[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [GitHub & Offline Mode](#-github--offline-first-flexibility) • [Detailed Integration](#-detailed-github--git-integration-points) • [Installation](#-getting-started) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
+[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [GitHub & Offline Mode](#-github--offline-first-flexibility) • [Detailed Integration](#-detailed-github--git-integration-points) • [Installation](#-getting-started) • [Development & Build](#%EF%B8%8F-development--build-guide) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
 
 </div>
 
@@ -197,6 +197,48 @@ Installing Flux Tasks is quick and simple.
 
 ---
 
+## 🛠️ Development & Build Guide
+
+If you are developing or building Flux Tasks locally, follow these steps to set up your environment:
+
+### 1. Prerequisites
+* [Node.js](https://nodejs.org/) (version 18.x or newer)
+* [Git](https://git-scm.com/)
+
+### 2. Configure Environment Variables
+Create a file named `.env` in the root folder of the project, and add the following keys:
+```env
+# GitHub token for release publishing (repo, read:user, workflow scopes)
+GITHUB_TOKEN=your_personal_access_token_here
+
+# GitHub repository owner and repository name
+GITHUB_OWNER=Straniksss
+GITHUB_REPO=Flux-Tasks
+
+# URL to poll for client-side OTA auto-update checks
+UPDATE_MANIFEST_URL=https://github.com/Straniksss/Flux-Tasks/releases/latest/download/latest.json
+```
+
+### 3. Run Locally in Dev Mode
+1. Install node packages:
+   ```bash
+   npm install
+   ```
+2. Start the hot-reloading dev environment:
+   ```bash
+   npm run dev
+   ```
+   *This starts the local Vite server and boots the Electron application frame.*
+
+### 4. Build Standalone Installer Locally
+To compile frontend code and build the final executable installer:
+```bash
+npm run build
+```
+*This produces standalone installers and portable ZIP packages inside the `release/` directory.*
+
+---
+
 ## 🚀 Automated Releases & OTA
 
 Flux Tasks features a custom-built automation pipeline for compiling, verifying, and publishing updates.
@@ -211,6 +253,7 @@ Running `npm run release` prompts you for release metadata:
 
 #### What the script does under the hood:
 * Stops active `Flux Tasks.exe` instances to prevent locking files.
+* Bumps target version, automatically stages all changed project files, commits them, and pushes them to your current remote Git branch (`git push origin [branch]`).
 * Builds the React client and compiles Electron main/preload processes via `esbuild`.
 * Bundles files into an `app.asar` archive and validates structure.
 * Calculates SHA256 checksums and file sizes.
