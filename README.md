@@ -1,219 +1,216 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Flux Tasks Banner">
+  <img src="assets/banner.png" alt="Flux Tasks Banner" width="100%">
 </p>
 
 <div align="center">
 
-# Flux Tasks
+# 🌊 Flux Tasks
 
-### ✨ Premium Offline Project Manager
+### ✨ Premium Offline-First Project Manager & Development Hub
+*Organize your workflow with absolute privacy, liquid-glass aesthetics, and seamless local productivity.*
 
-Tasks • Roadmaps • Releases • Documentation • AI Prompts
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Electron-Latest-47848F?style=for-the-badge">
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge">
-  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge">
-  <img src="https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Offline-First-7CFFC4?style=for-the-badge">
-</p>
+[![Electron](https://img.shields.io/badge/Electron-42.4-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Offline First](https://img.shields.io/badge/Offline--First-Secured-7CFFC4?style=for-the-badge)](https://github.com/Straniksss/Flux-Tasks)
 
 ---
 
-## 🚀 About
+[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [Installation](#-getting-started) • [Development](#-development-workflow) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
 
-Flux Tasks is a premium offline project management application designed for developers and creators.
-
-Everything is stored locally.
-
-No cloud. No subscriptions. No tracking.
-
+</div>
 
 ---
 
-## ✨ Features
+## 🚀 About Flux Tasks
+
+**Flux Tasks** is a premium, offline-first project management application designed specifically for developers, creators, and teams who value speed, privacy, and rich aesthetics. 
+
+Unlike traditional project management tools, Flux Tasks stores **100% of your data locally** on your machine. No cloud databases, no tracking, no mandatory subscriptions. Just pure, instant desktop performance wrapped in a gorgeous liquid-glass user interface.
+
+Additionally, Flux Tasks features an **optional GitHub integration** using a streamlined Personal Access Token (PAT) flow. Link your local projects to GitHub repositories, track remote releases, and sync issues—all while retaining the ability to work entirely offline.
+
+---
+
+## ✨ Key Features
 
 ### 📋 Smart Task Management
+Create and organize multi-type tasks optimized for development cycles:
+* 🐞 **Bugs**: Document, track, and squash code issues.
+* ✨ **Features**: Plan new functionality with checklist items.
+* 🚀 **Releases**: Group tasks under specific project versions.
+* 🔧 **Refactors**: Keep your codebase clean and structured.
+* 📝 **Documentation**: Draft guidelines and design specs right alongside your code.
+* 🤖 **AI Prompts**: Store, tag, and refine prompts for ChatGPT, Claude, or Gemini.
 
-Create and manage:
+### 🎨 Liquid-Glass Interface
+Enjoy an interactive experience inspired by **Apple visionOS**, **Arc Browser**, and **Linear**:
+* **Aero Glass & Acrylic Blur**: Beautiful backdrop filters that blend with your desktop environment.
+* **Dynamic HSL Gradients**: Curated color palettes with smooth interactive states.
+* **Micro-Animations**: Fluid transitions powered by Framer Motion.
+* **Typographic Harmony**: Structured typography with premium system font fallbacks.
 
-* 🐞 Bugs
-* ✨ Features
-* 🚀 Releases
-* 🔧 Refactors
-* 📝 Documentation
-* 🤖 AI Prompts
+### 🛣 Timeline & Roadmaps
+Plan and visualize your development trajectory:
+* Track versions, milestones, and release goals.
+* **Release Timeline Switcher**: Instantly switch between checking local SQLite milestones and pulling GitHub releases in real time.
 
----
+### 📦 Optional GitHub Integration
+* **Simplified Authorization**: Connect via a single click using a pre-configured PAT creation link (`repo`, `read:user`, `workflow` scopes).
+* **Robust Encryption**: Your PAT is never stored in plain text or exposed to the renderer; it is securely encrypted using Electron's `safeStorage` API before saving to your SQLite database.
+* **Issue Linking & Status Cards**: Map checklist items to markdown syntax and easily monitor linked GitHub issues.
 
-### 🎨 Liquid Glass Interface
+### 💻 Local Code Snippets & Attachments
+* Keep your code fragments and snippets organized with integrated syntax highlighting for JavaScript, TypeScript, Python, SQL, HTML, CSS, Bash, and PowerShell.
+* Attach PDFs, logs, images, and ZIP files directly to your projects.
 
-Inspired by:
-
-* Apple visionOS
-* Arc Browser
-* Linear
-* Raycast
-
-Features:
-
-* Dynamic gradients
-* Glass effects
-* Acrylic blur
-* Smooth animations
-* Custom themes
-
----
-
-### 🛣 Roadmaps
-
-Plan future development.
-
-Track:
-
-* Versions
-* Milestones
-* Upcoming features
-* Release goals
-
----
-
-### 📦 Release Management
-
-Organize releases with:
-
-* Version tracking
-* Changelogs
-* Progress monitoring
-* Release notes
-
----
-
-### 🤖 Prompt Library
-
-Store and organize:
-
-* ChatGPT prompts
-* Gemini prompts
-* Claude prompts
-* Development prompts
-
----
-
-### 💻 Code Snippets
-
-Save:
-
-* JavaScript
-* TypeScript
-* Python
-* JSON
-* HTML
-* CSS
-* SQL
-* Bash
-* PowerShell
-
-With syntax highlighting.
-
----
-
-### 📎 Attachments
-
-Attach:
-
-* Images
-* PDFs
-* ZIP archives
-* Documentation
-* Logs
-
----
-
-### 🔍 Global Search
-
-Instantly search:
-
-* Tasks
-* Projects
-* Descriptions
-* Prompts
-* Notes
-* Code snippets
-
----
-
-## 📊 Workflow
-
-### Task Types
-
-| Type             | Description              |
-| ---------------- | ------------------------ |
-| 🐞 Bug           | Track software issues    |
-| ✨ Feature        | New functionality        |
-| 🚀 Release       | Release planning         |
-| 🔧 Refactor      | Code improvements        |
-| 📝 Documentation | Guides and documentation |
-| 🤖 AI Prompt     | AI prompt storage        |
-
-### Task Statuses
-
-| Status         | Description               |
-| -------------- | ------------------------- |
-| 📌 Planned     | Scheduled for future work |
-| ⏳ Waiting      | Awaiting action           |
-| 🚧 In Progress | Currently being worked on |
-| 🧪 Testing     | Validation and QA         |
-| ✅ Completed    | Successfully finished     |
-| ❌ Cancelled    | No longer required        |
+### 🔍 Instant Global Search
+* Instantly search across all tasks, descriptions, code snippets, notes, and AI prompts with zero network latency.
 
 ---
 
 ## 🏗 Technology Stack
 
-* Electron
-* React
-* TypeScript
-* Vite
-* SQLite
-* Zustand
-* Framer Motion
+Flux Tasks is built on modern, lightweight, and high-performance desktop technologies:
+
+* **Runtime**: [Electron 42](https://www.electronjs.org/) (for secure, cross-platform shell integration)
+* **Frontend**: [React 19](https://react.dev/) + [Vite](https://vite.dev/) + [TypeScript](https://www.typescriptlang.org/)
+* **Styling**: [TailwindCSS 4](https://tailwindcss.com/) + Custom Vanilla CSS for backdrop filters and glassmorphism
+* **Database**: [SQLite](https://www.sqlite.org/) (fast, ACID-compliant local database)
+* **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+* **Animations**: [Framer Motion](https://www.framer.com/motion/)
+* **Icons**: [Lucide React](https://lucide.dev/)
 
 ---
 
-## 💾 Local Storage
+## 📊 Workflow Reference
 
-All data is stored locally:
+### Task Types
+| Type | Icon | Primary Use Case |
+| :--- | :---: | :--- |
+| **Bug** | 🐞 | Bug tracking, regression testing, and hotfixes |
+| **Feature** | ✨ | Feature requests, UI improvements, and new capabilities |
+| **Release** | 🚀 | Version targeting, deployment tasks, and change summaries |
+| **Refactor** | 🔧 | Technical debt reduction and code cleanup |
+| **Documentation**| 📝 | System architecture docs, onboarding guides, and user manuals |
+| **AI Prompt** | 🤖 | System instructions, prompt templates, and agent guidelines |
+
+### Task Statuses
+| Status | Icon | Stage in Pipeline |
+| :--- | :---: | :--- |
+| **Planned** | 📌 | Backlogged or scheduled for future iterations |
+| **Waiting** | ⏳ | Blocked, waiting on review, or pending external feedback |
+| **In Progress** | 🚧 | Currently active development |
+| **Testing** | 🧪 | Verification, QA check, or code-review stage |
+| **Completed** | ✅ | Successfully closed and implemented |
+| **Cancelled** | ❌ | Discarded, duplicated, or marked out of scope |
+
+---
+
+## 💾 Local Storage Architecture
+
+All data resides safely on your disk. You own your files:
 
 ```text
-%APPDATA%/Flux Tasks/
+%APPDATA%/Flux Tasks/   (Windows)
+~/Library/Application Support/Flux Tasks/ (macOS)
+~/.config/Flux Tasks/   (Linux)
 
-├── tasks.db
-├── backups/
-└── exports/
+├── tasks.db         # Core SQLite database containing tasks, projects, snippets, and encrypted credentials
+├── backups/         # Auto-generated database checkpoints and backups
+└── exports/         # Markdown, JSON, and CSV project exports
 ```
 
 ---
 
-## 🔒 Privacy
+## ⚙️ Getting Started
 
-Flux Tasks never uploads your data.
+### Prerequisites
+* [Node.js](https://nodejs.org/) (v18.x or newer)
+* npm or yarn
 
-Your projects remain:
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Straniksss/Flux-Tasks.git
+   cd Flux-Tasks
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-* Private
-* Offline
-* Local
-* Secure
+---
+
+## 💻 Development Workflow
+
+To run and build Flux Tasks in your local environment, use the following commands:
+
+* **Start Development Mode**:
+  ```bash
+  npm run dev
+  ```
+  *Launches the Vite dev server and opens the Electron app shell concurrently with hot-reloading.*
+
+* **Type-Check Code**:
+  ```bash
+  npm run lint
+  ```
+
+* **Compile Assets**:
+  * Build the React frontend: `npm run build:frontend`
+  * Bundle Electron processes: `npm run build:electron`
+
+* **Produce Installers (Windows)**:
+  ```bash
+  npm run build
+  ```
+  *Creates standalone NSIS Installers (`.exe`) and portable ZIP archives in the `release/` folder.*
+
+---
+
+## 🚀 Automated Releases & OTA
+
+Flux Tasks features a custom-built automation pipeline for compiling, verifying, and publishing updates.
+
+### Release Script (`npm run release`)
+Running `npm run release` prompts you for release metadata:
+1. **Target Version**: (e.g., `1.1.15`, `1.2.0-beta.1`)
+2. **Release Channel**: (`stable`, `beta`, `alpha`, `rc`)
+3. **Release Title**: Heading for the changelog
+4. **Changelog Notes**: Bullet points representing changes
+5. **GitHub Repository**: Target owner/repo (defaults to the setting in `.env` or `Straniksss/Flux-Tasks`)
+
+#### What the script does under the hood:
+* Stops active `Flux Tasks.exe` instances to prevent locking files.
+* Builds the React client and compiles Electron main/preload processes via `esbuild`.
+* Bundles files into an `app.asar` archive and validates structure.
+* Calculates SHA256 checksums and file sizes.
+* Generates OTA (Over-the-Air) update manifests:
+  * Stable releases publish/overwrite `latest.json` and `latest-stable.json`.
+  * Pre-releases (beta, alpha, rc) write to isolated manifests (e.g., `latest-beta.json`).
+* If a `GITHUB_TOKEN` is found, automatically creates a GitHub Release, tags the repository, cleans up duplicate assets, and uploads the manifest files, `app.asar`, portable ZIP, and NSIS setup installer.
+
+---
+
+## 🔒 Privacy by Design
+
+* **Zero Tracking**: No telemetry, no usage analytics, and no external tracking pixels.
+* **Offline-First Storage**: The app behaves 100% identically when you are disconnected from the network.
+* **Secure Token Handling**: When using the optional GitHub integration:
+  * Personal Access Tokens are encrypted using Electron's OS-level credentials system (`safeStorage`).
+  * Tokens are never stored plain-text, never logged to stdout/files, and never sent to the renderer process.
+  * All GitHub requests are routed through Electron's main process for advanced header security.
 
 ---
 
 ## 📄 License
 
-MIT License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <p align="center">
-  Made with ❤️ for developers
+  Crafted with ❤️ for developers who love premium aesthetics and privacy.
 </p>
