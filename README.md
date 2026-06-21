@@ -17,7 +17,7 @@
 
 ---
 
-[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [GitHub & Offline Mode](#-github--offline-first-flexibility) • [Installation](#-getting-started) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
+[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [GitHub & Offline Mode](#-github--offline-first-flexibility) • [Detailed Integration](#-detailed-github--git-integration-points) • [Installation](#-getting-started) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
 
 </div>
 
@@ -52,6 +52,49 @@ If you decide to link a project to a GitHub repository, you get access to advanc
 * **Local Git Actions**: Perform `commit`, `pull`, `push`, and `tag` commands, or launch a terminal directly in your project folder.
 * **Release Timeline Viewer**: Render a read-only timeline of your repository's GitHub Releases history.
 * **High-Level Security**: Your Personal Access Token (PAT) is never stored in plain text or shared with the renderer; it is securely encrypted using Electron's `safeStorage` API and stays safely inside your local SQLite DB.
+
+---
+
+## 🐙 Detailed GitHub & Git Integration Points
+
+For developers looking to understand where and how Git and GitHub are integrated across the Flux Tasks codebase, here is a detailed breakdown:
+
+### 1. Connection & Token Security (`electron/git-github.ts`)
+* **Settings Panel Integration (`src/components/GitHubSettings.tsx`)**: Prompts the user to create a Personal Access Token (PAT) via a pre-filled GitHub scopes link, connects the account, and displays profile details (username, avatar, scopes, list of repositories).
+* **Electron safeStorage Encryption**: When the user connects their GitHub account, the PAT is transferred to the main process, encrypted using OS-level keychains via Electron's `safeStorage` API, and saved as a hexadecimal string in the local SQLite settings table.
+* **Security Isolation**: The decrypted token is **never** sent back to the frontend renderer or logged, completely protecting it from cross-site scripting (XSS) extraction.
+
+### 2. Repository Dashboard (`src/components/GitHubProjectDashboard.tsx`)
+* **Dashboard Tab**: Renders repository metadata fetched via the GitHub REST API, showing:
+  * Open issues count (excluding Pull Requests) and Pull Requests count.
+  * Stars and forks counters.
+  * Repository default branch and the last push timestamp.
+  * A shortcut to open the remote repository in the default web browser.
+
+### 3. Issues Sync & Management
+* **Issues Tab (`src/components/GitHubProjectDashboard.tsx`)**:
+  * **Import Issue**: Resolves issue fields and saves them as a local SQLite task, including labels, description, and status mappings.
+  * **Link Issue**: Links an existing local task to a GitHub issue.
+* **Task Details View (`src/components/TaskDetailView.tsx`)**:
+  * **Linked Issue Card**: Displays the state of the linked issue (open or closed) dynamically in the task properties sidebar.
+  * **Create Issue**: Automatically converts task descriptions, tags, and checklist items to markdown and posts it to GitHub to create a remote issue.
+
+### 4. Local Git Command execution (`electron/git-github.ts` $\rightarrow$ CLI Spawn)
+* **Local Path Configuration**: By specifying a local folder path in the project editor, the following operations are enabled:
+  * **Git Status**: Parses unstaged, staged, and untracked files using `git status --porcelain`.
+  * **Commit**: Runs `git add -A` and `git commit -m "[message]"` on your files.
+  * **Tag**: Spawns annotated tags using `git tag [name] -m "[message]"`.
+  * **Pull & Push**: Syncs code with the remote repository origin (`git pull`/`git push`).
+  * **Terminal/Folder Launchers**: Spawns PowerShell inside the project directory, or opens it inside the default system File Explorer.
+
+### 5. Read-Only Releases Timeline (`src/components/GitHubReleasesView.tsx`)
+* **Roadmap Viewer Tab**: Placed inside the roadmap switcher to render version history, release notes, release tags, release states (`Draft`, `Prerelease`, `Latest Stable`), and lists of download assets along with their file sizes and download counts.
+* **Strict Read-Only Access**: All mutation controls (creating releases, editing notes, deleting tags, or uploading binaries) are fully removed from the user interface.
+
+### 6. Command-Line Release Pipeline (`scripts/release.js`)
+* **Decoupled System**: Compiling application packages and publishing update manifests (`latest.json` or `latest-[channel].json`) is restricted to the Node CLI script.
+* **Authentication**: Uses `process.env.GITHUB_TOKEN` or a token configured inside the local `.env` configuration file.
+* **Process**: Compiles files, builds setup installers and portable ZIPs, generates update hashes, and automates creating tags and uploading the assets to GitHub Releases.
 
 ---
 
