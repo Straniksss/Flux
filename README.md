@@ -17,7 +17,7 @@
 
 ---
 
-[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [Installation](#-getting-started) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
+[Key Features](#-key-features) • [Tech Stack](#-technology-stack) • [GitHub & Offline Mode](#-github--offline-first-flexibility) • [Installation](#-getting-started) • [OTA Updates & Releases](#-automated-releases--ota) • [Security & Privacy](#-privacy-by-design)
 
 </div>
 
@@ -30,6 +30,28 @@
 Unlike traditional project management tools, Flux Tasks stores **100% of your data locally** on your machine. No cloud databases, no tracking, no mandatory subscriptions. Just pure, instant desktop performance wrapped in a gorgeous liquid-glass user interface.
 
 Additionally, Flux Tasks features an **optional GitHub integration** using a streamlined Personal Access Token (PAT) flow. Link your local projects to GitHub repositories, track remote releases, and sync issues—all while retaining the ability to work entirely offline.
+
+---
+
+## 🔌 GitHub & Offline-First Flexibility
+
+Flux Tasks is architected from the ground up to place full ownership of data in your hands. You don't need a GitHub account, a token, or even an active internet connection to use the core system.
+
+### 🛡️ 100% Offline Mode (No GitHub Connected)
+When used entirely offline or without a linked GitHub account, all features remain fully functional:
+* **Local Projects & Roadmaps**: Create and manage local projects and milestones without any network requests.
+* **Smart Tasks & Checklists**: Create bugs, features, refactors, docs, or AI prompts stored directly in your local SQLite database.
+* **Local Code Snippets**: Save and edit code fragments with syntax highlighting.
+* **Local Attachments**: Import and open project resources (images, PDFs, ZIP archives) locally.
+* **Local Backups & Exports**: Export data to Markdown, JSON, HTML, or CSV, and create/restore local database backups.
+
+### 🐙 Optional GitHub Integration (When Connected)
+If you decide to link a project to a GitHub repository, you get access to advanced repository metrics:
+* **Repository Dashboard**: View stars, forks, open issues, PR counts, default branch, and last push date directly in the app.
+* **Issues Integration**: Synchronize states, import GitHub issues into local tasks, or automatically create GitHub issues from your tasks.
+* **Local Git Actions**: Perform `commit`, `pull`, `push`, and `tag` commands, or launch a terminal directly in your project folder.
+* **Release Timeline Viewer**: Render a read-only timeline of your repository's GitHub Releases history.
+* **High-Level Security**: Your Personal Access Token (PAT) is never stored in plain text or shared with the renderer; it is securely encrypted using Electron's `safeStorage` API and stays safely inside your local SQLite DB.
 
 ---
 
@@ -55,11 +77,6 @@ Enjoy an interactive experience inspired by **Apple visionOS**, **Arc Browser**,
 Plan and visualize your development trajectory:
 * Track versions, milestones, and release goals.
 * **Release Timeline Switcher**: Instantly switch between checking local SQLite milestones and pulling GitHub releases in real time.
-
-### 📦 Optional GitHub Integration
-* **Simplified Authorization**: Connect via a single click using a pre-configured PAT creation link (`repo`, `read:user`, `workflow` scopes).
-* **Robust Encryption**: Your PAT is never stored in plain text or exposed to the renderer; it is securely encrypted using Electron's `safeStorage` API before saving to your SQLite database.
-* **Issue Linking & Status Cards**: Map checklist items to markdown syntax and easily monitor linked GitHub issues.
 
 ### 💻 Local Code Snippets & Attachments
 * Keep your code fragments and snippets organized with integrated syntax highlighting for JavaScript, TypeScript, Python, SQL, HTML, CSS, Bash, and PowerShell.
