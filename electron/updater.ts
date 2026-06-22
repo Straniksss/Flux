@@ -48,10 +48,12 @@ function runWithoutAsar<T>(fn: () => T): T {
 
 // Version parser helper
 function parseVersion(v: string) {
-  const clean = v.replace(/^v/, '');
-  const parts = clean.split('-');
-  const numbers = parts[0].split('.').map(Number);
-  const prerelease = parts[1] || '';
+  const clean = String(v || '').trim().replace(/^v/i, '').split('+')[0];
+  const [core, prerelease = ''] = clean.split('-', 2);
+  const numbers = core.split('.').map(part => {
+    const value = Number.parseInt(part, 10);
+    return Number.isFinite(value) ? value : 0;
+  });
   return { numbers, prerelease };
 }
 
@@ -71,10 +73,48 @@ export function compareVersions(v1: string, v2: string): number {
   if (parsed1.prerelease && !parsed2.prerelease) return -1;
 
   if (parsed1.prerelease && parsed2.prerelease) {
-    return parsed1.prerelease.localeCompare(parsed2.prerelease);
+    const identifiers1 = parsed1.prerelease.split('.');
+    const identifiers2 = parsed2.prerelease.split('.');
+    const length = Math.max(identifiers1.length, identifiers2.length);
+
+    for (let i = 0; i < length; i++) {
+      const identifier1 = identifiers1[i];
+      const identifier2 = identifiers2[i];
+      if (identifier1 === undefined) return -1;
+      if (identifier2 === undefined) return 1;
+      if (identifier1 === identifier2) continue;
+
+      const numeric1 = /^\d+$/.test(identifier1);
+      const numeric2 = /^\d+$/.test(identifier2);
+      if (numeric1 && numeric2) {
+        return Number(identifier1) > Number(identifier2) ? 1 : -1;
+      }
+      if (numeric1 !== numeric2) {
+        return numeric1 ? -1 : 1;
+      }
+      return identifier1.localeCompare(identifier2);
+    }
   }
 
   return 0;
+}
+
+function isManifestForChannel(manifest: any, channel: string): boolean {
+  if (!manifest?.version) return false;
+  const manifestChannel = String(manifest.channel || 'stable').toLowerCase();
+  return manifestChannel === channel.toLowerCase();
+}
+
+function getLatestManifest(manifests: any[], channel: string): any | null {
+  return manifests
+    .filter(manifest => isManifestForChannel(manifest, channel))
+    .sort((left, right) => compareVersions(right.version, left.version))[0] || null;
+}
+
+function getManifestAssetNames(channel: string): string[] {
+  return channel === 'stable'
+    ? ['latest-stable.json', 'latest.json']
+    : [`latest-${channel}.json`];
 }
 
 // Helper to make HTTPS requests and follow redirects
@@ -204,33 +244,50 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
   const repoName = 'Flux-Tasks';
 
   let manifest: any = null;
-  let loadedFromApi = false;
+  const manifestCandidates: any[] = [];
 
-  // 1. Try to fetch matching release from GitHub Releases API
+  // 1. Collect manifests from all recent GitHub releases and choose the highest version.
   try {
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases`;
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases?per_page=100`;
     logUpdateEvent(`Fetching releases from GitHub API: ${apiUrl}`);
     const res = await httpsGetWithRedirects(apiUrl, { 'User-Agent': 'Flux Tasks Agent' });
     if (res.statusCode === 200) {
       const releases = JSON.parse(res.data);
       if (Array.isArray(releases)) {
-        const manifestFilename = channel === 'stable' ? 'latest.json' : `latest-${channel}.json`;
+        const manifestAssetNames = getManifestAssetNames(channel);
         for (const release of releases) {
+          if (release.draft) {
+            continue;
+          }
           if (channel === 'stable' && release.prerelease) {
             continue;
           }
-          const manifestAsset = release.assets?.find((a: any) => a.name === manifestFilename || a.name === 'latest.json');
+          if (channel !== 'stable' && !release.prerelease) {
+            continue;
+          }
+
+          const manifestAsset = manifestAssetNames
+            .map(name => release.assets?.find((asset: any) => asset.name === name))
+            .find(Boolean);
           if (manifestAsset) {
             logUpdateEvent(`Found manifest asset in release ${release.tag_name}: ${manifestAsset.name}`);
             const assetRes = await httpsGetWithRedirects(manifestAsset.browser_download_url, { 'User-Agent': 'Flux Tasks Agent' });
             if (assetRes.statusCode === 200) {
-              manifest = JSON.parse(assetRes.data);
-              loadedFromApi = true;
-              break;
+              const candidate = JSON.parse(assetRes.data);
+              if (isManifestForChannel(candidate, channel)) {
+                manifestCandidates.push(candidate);
+                logUpdateEvent(`Accepted update candidate ${candidate.version} for channel ${channel}`);
+              } else {
+                logUpdateEvent(`Ignored manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
+              }
             } else {
               logUpdateEvent(`Failed to fetch manifest from asset URL: status ${assetRes.statusCode}`);
             }
           }
+        }
+        manifest = getLatestManifest(manifestCandidates, channel);
+        if (manifest) {
+          logUpdateEvent(`Selected highest GitHub release version ${manifest.version} from ${manifestCandidates.length} candidate(s)`);
         }
       }
     } else {
@@ -240,31 +297,39 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
     logUpdateEvent(`GitHub API check failed: ${apiErr.message}`);
   }
 
-  // 2. Fallback to direct URLs if API was unsuccessful
-  if (!loadedFromApi) {
-    logUpdateEvent(`Falling back to direct release download and raw repository URLs`);
-    const manifestFilename = channel === 'stable' ? 'latest.json' : `latest-${channel}.json`;
-    const fallbackUrls: string[] = [];
-    if (channel === 'stable') {
-      fallbackUrls.push(`https://github.com/${repoOwner}/${repoName}/releases/latest/download/latest.json`);
-    }
-    fallbackUrls.push(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/packages/${channel}/${manifestFilename}`);
-    fallbackUrls.push(`https://straniksss.github.io/Flux-Tasks/packages/${channel}/${manifestFilename}`);
+  // 2. Also inspect direct "latest" sources. They can be newer than a release asset
+  // when publication completed only partially.
+  logUpdateEvent(`Checking direct release download and raw repository URLs`);
+  const manifestFilename = channel === 'stable' ? 'latest.json' : `latest-${channel}.json`;
+  const fallbackUrls: string[] = [];
+  if (channel === 'stable') {
+    fallbackUrls.push(`https://github.com/${repoOwner}/${repoName}/releases/latest/download/latest.json`);
+  }
+  fallbackUrls.push(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/packages/${channel}/${manifestFilename}`);
+  fallbackUrls.push(`https://straniksss.github.io/Flux-Tasks/packages/${channel}/${manifestFilename}`);
 
-    for (const url of fallbackUrls) {
-      try {
-        logUpdateEvent(`Trying URL: ${url}`);
-        const res = await httpsGetWithRedirects(url, { 'User-Agent': 'Flux Tasks Agent' });
-        if (res.statusCode === 200) {
-          manifest = JSON.parse(res.data);
-          break;
+  for (const url of fallbackUrls) {
+    try {
+      logUpdateEvent(`Trying URL: ${url}`);
+      const res = await httpsGetWithRedirects(url, { 'User-Agent': 'Flux Tasks Agent' });
+      if (res.statusCode === 200) {
+        const candidate = JSON.parse(res.data);
+        if (isManifestForChannel(candidate, channel)) {
+          manifestCandidates.push(candidate);
         } else {
-          logUpdateEvent(`URL returned status ${res.statusCode}`);
+          logUpdateEvent(`Ignored fallback manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
         }
-      } catch (e: any) {
-        logUpdateEvent(`Failed fetching from ${url}: ${e.message}`);
+      } else {
+        logUpdateEvent(`URL returned status ${res.statusCode}`);
       }
+    } catch (e: any) {
+      logUpdateEvent(`Failed fetching from ${url}: ${e.message}`);
     }
+  }
+
+  manifest = getLatestManifest(manifestCandidates, channel);
+  if (manifest) {
+    logUpdateEvent(`Selected highest available version ${manifest.version} from ${manifestCandidates.length} candidate(s)`);
   }
 
   try {

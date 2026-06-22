@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import { getTranslation } from '../localization';
 import * as Icons from 'lucide-react';
 import { TaskStatus, Project } from '../types';
-import logo from '../../assets/icon.png';
+import brandIcon from '../../assets/icon.png';
 
 export const Sidebar: React.FC = () => {
   const {
@@ -179,7 +179,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      <div className={`${isCollapsed ? 'w-16' : 'w-56'} shrink-0 h-full flex flex-col bg-white/[0.015] backdrop-blur-[36px] rounded-b-2xl rounded-t-none border border-white/[0.02] shadow-[0_12px_40px_rgba(0,0,0,0.35)] select-none transition-all duration-300 ease-in-out relative overflow-hidden`}>
+      <div className={`${isCollapsed ? 'w-16' : 'w-64'} shrink-0 h-full flex flex-col bg-white/[0.015] backdrop-blur-[36px] rounded-b-2xl rounded-t-none border border-white/[0.02] shadow-[0_12px_40px_rgba(0,0,0,0.35)] select-none transition-all duration-300 ease-in-out relative overflow-hidden`}>
         {/* Liquid Glass reflection highlights */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent pointer-events-none z-20" />
         <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none z-10" />
@@ -189,19 +189,22 @@ export const Sidebar: React.FC = () => {
           className={`p-3 border-b border-white/[0.02] flex items-center ${isCollapsed ? 'flex-col gap-2' : 'justify-between'} overflow-hidden relative z-20`}
           style={{ WebkitAppRegion: 'drag' } as any}
         >
-          <div className={`flex items-center ${isCollapsed ? 'flex-col justify-center' : 'gap-3'}`}>
-            {/* Logo Image */}
-            <div className="shrink-0">
-              <img 
-                src={logo} 
-                alt="Flux Tasks Logo" 
-                className={`${isCollapsed ? 'w-10 h-10' : 'w-11 h-11'} object-contain drop-shadow-[0_2px_10px_rgba(0,125,255,0.4)] transition-all duration-300`} 
+          <div className={`flex min-w-0 items-center ${isCollapsed ? 'flex-col justify-center' : 'gap-2.5'}`}>
+            <div className={`${isCollapsed ? 'h-10 w-10' : 'h-12 w-12'} relative shrink-0 overflow-hidden rounded-xl transition-all duration-300`}>
+              <img
+                src={brandIcon}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[-115%] top-[-58%] h-auto w-[330%] max-w-none drop-shadow-[0_3px_12px_rgba(0,125,255,0.45)]"
               />
             </div>
             {!isCollapsed && (
-              <div className="flex items-center gap-1.5 animate-fade-in font-display font-bold text-base tracking-tight leading-none">
+              <div
+                className="flex min-w-0 items-baseline gap-1 animate-fade-in font-display text-[28px] font-extrabold tracking-[-0.045em] leading-none"
+                aria-label="Flux Tasks"
+              >
                 <span className="text-white">Flux</span>
-                <span className="bg-gradient-to-r from-flux-blue to-flux-violet bg-clip-text text-transparent">Tasks</span>
+                <span className="bg-gradient-to-r from-[#38bdf8] via-[#638cff] to-[#c757ff] bg-clip-text text-transparent">Tasks</span>
               </div>
             )}
           </div>
