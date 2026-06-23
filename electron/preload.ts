@@ -49,6 +49,12 @@ contextBridge.exposeInMainWorld('api', {
       return () => ipcRenderer.removeListener('reminders:openTask', listener);
     }
   },
+  notifications: {
+    scheduleDeadline: (task: Task) => ipcRenderer.invoke('tasks:schedule-deadline-notification', task),
+    cancelDeadline: (taskId: string) => ipcRenderer.invoke('tasks:cancel-deadline-notification', taskId),
+    rescheduleAll: () => ipcRenderer.invoke('tasks:reschedule-all-deadline-notifications'),
+    test: () => ipcRenderer.invoke('notifications:test')
+  },
   settings: {
     setRunInBackground: (enabled: boolean) => ipcRenderer.invoke('settings:setRunInBackground', enabled),
     setAutoLaunch: (enabled: boolean) => ipcRenderer.invoke('settings:setAutoLaunch', enabled),

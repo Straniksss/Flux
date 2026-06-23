@@ -252,17 +252,20 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
 
   let manifest: any = null;
   const manifestCandidates: any[] = [];
+  const candidatePromises: Promise<any>[] = [];
 
-  // 1. Collect manifests from all recent GitHub releases and choose the highest version.
+  // 1. Collect manifests from recent GitHub releases
   try {
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases?per_page=100`;
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases?per_page=10`;
     logUpdateEvent(`Fetching releases from GitHub API: ${apiUrl}`);
     const res = await httpsGetWithRedirects(apiUrl, { 'User-Agent': 'Flux Tasks Agent' });
     if (res.statusCode === 200) {
       const releases = JSON.parse(res.data);
       if (Array.isArray(releases)) {
         const manifestAssetNames = getManifestAssetNames(channel);
-        for (const release of releases) {
+        
+        // Scan only the first 5 releases to speed up checks and avoid hitting rate limits
+        for (const release of releases.slice(0, 5)) {
           if (release.draft) {
             continue;
           }
@@ -277,24 +280,29 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
             .map(name => release.assets?.find((asset: any) => asset.name === name))
             .find(Boolean);
           if (manifestAsset) {
-            logUpdateEvent(`Found manifest asset in release ${release.tag_name}: ${manifestAsset.name}`);
-            const assetRes = await httpsGetWithRedirects(manifestAsset.browser_download_url, { 'User-Agent': 'Flux Tasks Agent' });
-            if (assetRes.statusCode === 200) {
-              const candidate = JSON.parse(assetRes.data);
-              if (isManifestForChannel(candidate, channel)) {
-                manifestCandidates.push(candidate);
-                logUpdateEvent(`Accepted update candidate ${candidate.version} for channel ${channel}`);
-              } else {
-                logUpdateEvent(`Ignored manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
-              }
-            } else {
-              logUpdateEvent(`Failed to fetch manifest from asset URL: status ${assetRes.statusCode}`);
-            }
+            candidatePromises.push(
+              (async () => {
+                try {
+                  logUpdateEvent(`Found manifest asset in release ${release.tag_name}: ${manifestAsset.name}`);
+                  const assetRes = await httpsGetWithRedirects(manifestAsset.browser_download_url, { 'User-Agent': 'Flux Tasks Agent' });
+                  if (assetRes.statusCode === 200) {
+                    const candidate = JSON.parse(assetRes.data);
+                    if (isManifestForChannel(candidate, channel)) {
+                      logUpdateEvent(`Accepted update candidate ${candidate.version} for channel ${channel}`);
+                      return candidate;
+                    } else {
+                      logUpdateEvent(`Ignored manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
+                    }
+                  } else {
+                    logUpdateEvent(`Failed to fetch manifest from asset URL: status ${assetRes.statusCode}`);
+                  }
+                } catch (e: any) {
+                  logUpdateEvent(`Failed to fetch manifest asset for release ${release.tag_name}: ${e.message}`);
+                }
+                return null;
+              })()
+            );
           }
-        }
-        manifest = getLatestManifest(manifestCandidates, channel);
-        if (manifest) {
-          logUpdateEvent(`Selected highest GitHub release version ${manifest.version} from ${manifestCandidates.length} candidate(s)`);
         }
       }
     } else {
@@ -304,8 +312,7 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
     logUpdateEvent(`GitHub API check failed: ${apiErr.message}`);
   }
 
-  // 2. Also inspect direct "latest" sources. They can be newer than a release asset
-  // when publication completed only partially.
+  // 2. Also inspect direct "latest" sources concurrently.
   logUpdateEvent(`Checking direct release download and raw repository URLs`);
   const manifestFilename = channel === 'stable' ? 'latest.json' : `latest-${channel}.json`;
   const fallbackUrls: string[] = [];
@@ -315,21 +322,34 @@ export async function checkForUpdates(channel: string): Promise<{ updateAvailabl
   fallbackUrls.push(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/packages/${channel}/${manifestFilename}`);
 
   for (const url of fallbackUrls) {
-    try {
-      logUpdateEvent(`Trying URL: ${url}`);
-      const res = await httpsGetWithRedirects(url, { 'User-Agent': 'Flux Tasks Agent' });
-      if (res.statusCode === 200) {
-        const candidate = JSON.parse(res.data);
-        if (isManifestForChannel(candidate, channel)) {
-          manifestCandidates.push(candidate);
-        } else {
-          logUpdateEvent(`Ignored fallback manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
+    candidatePromises.push(
+      (async () => {
+        try {
+          logUpdateEvent(`Trying URL: ${url}`);
+          const res = await httpsGetWithRedirects(url, { 'User-Agent': 'Flux Tasks Agent' });
+          if (res.statusCode === 200) {
+            const candidate = JSON.parse(res.data);
+            if (isManifestForChannel(candidate, channel)) {
+              return candidate;
+            } else {
+              logUpdateEvent(`Ignored fallback manifest ${candidate.version || 'unknown'} because its channel does not match ${channel}`);
+            }
+          } else {
+            logUpdateEvent(`URL returned status ${res.statusCode}`);
+          }
+        } catch (e: any) {
+          logUpdateEvent(`Failed fetching from ${url}: ${e.message}`);
         }
-      } else {
-        logUpdateEvent(`URL returned status ${res.statusCode}`);
-      }
-    } catch (e: any) {
-      logUpdateEvent(`Failed fetching from ${url}: ${e.message}`);
+        return null;
+      })()
+    );
+  }
+
+  // Wait for all manifest candidate network requests to resolve concurrently
+  const candidates = await Promise.all(candidatePromises);
+  for (const candidate of candidates) {
+    if (candidate) {
+      manifestCandidates.push(candidate);
     }
   }
 

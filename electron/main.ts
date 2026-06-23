@@ -38,8 +38,16 @@ import {
   startReminderService,
   stopReminderService
 } from './background-services';
+import {
+  initNotificationService,
+  scheduleDeadlineNotification,
+  cancelDeadlineNotification,
+  rescheduleAllDeadlineNotifications,
+  sendTestNotification
+} from './notification-service';
 
 app.name = 'Flux Tasks';
+app.setAppUserModelId("com.flux.tasks");
 
 let mainWindow: BrowserWindow | null = null;
 let recoveryModeActive = false;
@@ -290,6 +298,7 @@ app.whenReady().then(() => {
   initAutoBackupTimer();
 
   createWindow();
+  initNotificationService(() => mainWindow);
   configureTray(() => mainWindow, () => {
     isQuitting = true;
     app.quit();
@@ -371,6 +380,7 @@ ipcMain.handle('db:loadAll', () => {
 
 ipcMain.handle('db:saveTask', (event, task) => {
   saveTask(task);
+  scheduleDeadlineNotification(task);
   return { success: true };
 });
 
@@ -403,6 +413,26 @@ ipcMain.handle('settings:setAutoLaunch', (_event, enabled) => {
   return { success: true };
 });
 ipcMain.handle('settings:getNotificationStatus', () => ({ supported: Notification.isSupported() }));
+
+ipcMain.handle('tasks:schedule-deadline-notification', (_event, task) => {
+  scheduleDeadlineNotification(task);
+  return { success: true };
+});
+
+ipcMain.handle('tasks:cancel-deadline-notification', (_event, id) => {
+  cancelDeadlineNotification(id);
+  return { success: true };
+});
+
+ipcMain.handle('tasks:reschedule-all-deadline-notifications', () => {
+  rescheduleAllDeadlineNotifications();
+  return { success: true };
+});
+
+ipcMain.handle('notifications:test', () => {
+  sendTestNotification();
+  return { success: true };
+});
 
 ipcMain.handle('scheduledReleases:list', () => loadScheduledReleases());
 ipcMain.handle('scheduledReleases:save', (_event, release) => {
@@ -444,6 +474,7 @@ ipcMain.handle('scheduledReleases:selectAssets', async () => {
 
 ipcMain.handle('db:deleteTask', (event, id) => {
   deleteTask(id);
+  cancelDeadlineNotification(id);
   return { success: true };
 });
 

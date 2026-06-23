@@ -4,6 +4,7 @@ import { getTranslation } from '../localization';
 import * as Icons from 'lucide-react';
 import { Task, TaskStatus, TaskPriority, TaskType } from '../types';
 import { StatusPortalDropdown } from './StatusPortalDropdown';
+import { AttachmentIcon, CommentIcon, ChecklistIcon } from './icons/TaskMetaIcons';
 
 export const TaskListView: React.FC = () => {
   const {
@@ -449,16 +450,16 @@ export const TaskListView: React.FC = () => {
                 <div className="flex items-center justify-between border-t border-white/5 pt-3 mt-1" onClick={(e) => e.stopPropagation()}>
                   {/* Metrics details */}
                   <div className="flex items-center gap-4 text-[11px] text-slate-400 select-none">
-                    <span className="flex items-center gap-1" title={lang === 'ru' ? 'Вложения' : 'Attachments'}>
-                      <span>📎</span>
+                    <span className="flex items-center gap-[4px] hover:text-white transition-colors duration-150 cursor-pointer h-5" title={lang === 'ru' ? 'Вложения' : 'Attachments'}>
+                      <AttachmentIcon size={14} />
                       <span className="font-mono font-bold text-slate-300">{t.attachments?.length || 0}</span>
                     </span>
-                    <span className="flex items-center gap-1" title={lang === 'ru' ? 'Промпты / Заметки' : 'Prompts & Notes'}>
-                      <span>💬</span>
+                    <span className="flex items-center gap-[4px] hover:text-white transition-colors duration-150 cursor-pointer h-5" title={lang === 'ru' ? 'Промпты / Заметки' : 'Prompts & Notes'}>
+                      <CommentIcon size={14} />
                       <span className="font-mono font-bold text-slate-300">{(t.prompts?.length || 0) + (t.notes?.trim() ? 1 : 0)}</span>
                     </span>
-                    <span className="flex items-center gap-1" title={lang === 'ru' ? 'Чек-лист' : 'Checklist'}>
-                      <span>✓</span>
+                    <span className="flex items-center gap-[4px] hover:text-white transition-colors duration-150 cursor-pointer h-5" title={lang === 'ru' ? 'Чек-лист' : 'Checklist'}>
+                      <ChecklistIcon size={14} />
                       <span className="font-mono font-bold text-slate-300">
                         {(() => {
                           const total = t.checklist?.length || 0;

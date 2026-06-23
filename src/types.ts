@@ -223,6 +223,12 @@ export interface ElectronAPI {
     openTask: (taskId: string) => Promise<{ success: boolean }>;
     onOpenTask?: (callback: (taskId: string) => void) => () => void;
   };
+  notifications: {
+    scheduleDeadline: (task: Task) => Promise<{ success: boolean }>;
+    cancelDeadline: (taskId: string) => Promise<{ success: boolean }>;
+    rescheduleAll: () => Promise<{ success: boolean }>;
+    test: () => Promise<{ success: boolean }>;
+  };
   settings: {
     setRunInBackground: (enabled: boolean) => Promise<{ success: boolean }>;
     setAutoLaunch: (enabled: boolean) => Promise<{ success: boolean }>;

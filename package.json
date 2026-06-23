@@ -2,7 +2,7 @@
   "name": "flux-tasks",
   "productName": "Flux Tasks",
   "private": true,
-  "version": "1.1.22",
+  "version": "1.1.23",
   "repository": {
     "type": "git",
     "url": "https://github.com/Flux-Tasks/Flux-Tasks.git"
@@ -32,6 +32,7 @@
     "upload-web-package": "node scripts/upload-release.js --setup-only",
     "generate:update-manifest": "node scripts/generate-update-manifest.js",
     "clean": "rm -rf dist dist-electron release",
+    "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts"
   },

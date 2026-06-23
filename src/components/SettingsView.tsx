@@ -300,10 +300,23 @@ export const SettingsView: React.FC = () => {
             <option value="300">5 минут</option>
           </select>
         </label>
-        <button onClick={async () => {
-          const status = await window.api?.settings.getNotificationStatus();
-          showToast(status?.supported ? 'Уведомления Electron поддерживаются системой' : 'Уведомления отключены или не поддерживаются системой', status?.supported ? 'success' : 'error');
-        }} className="btn-secondary px-3 py-2 text-xs">Проверить уведомления Windows</button>
+        <div className="flex gap-2 select-none">
+          <button onClick={async () => {
+            const status = await window.api?.settings.getNotificationStatus();
+            showToast(status?.supported ? 'Уведомления Electron поддерживаются системой' : 'Уведомления отключены или не поддерживаются системой', status?.supported ? 'success' : 'error');
+          }} className="btn-secondary px-3 py-2 text-xs">Проверить уведомления Windows</button>
+          <button onClick={async () => {
+            if (window.api?.notifications?.test) {
+              await window.api.notifications.test();
+              showToast(
+                lang === 'ru' ? 'Тестовое уведомление отправлено' : lang === 'uk' ? 'Тестове сповіщення відправлено' : 'Test notification sent',
+                'success'
+              );
+            }
+          }} className="btn-accent-soft px-3 py-2 text-xs">
+            {lang === 'ru' ? 'Отправить тестовое уведомление' : lang === 'uk' ? 'Надіслати тестове сповіщення' : 'Send test notification'}
+          </button>
+        </div>
       </div>
 
       {/* SECTION I: THEME & APPEARANCE */}

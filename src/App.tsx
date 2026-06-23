@@ -513,9 +513,9 @@ function WorkspaceApp() {
     return (
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         {/* Soft atmospheric background orbs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full motion-composite" style={glowStyle1} />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full motion-composite" style={glowStyle2} />
-        <div className="absolute top-[30%] left-[25%] w-[40%] h-[40%] rounded-full opacity-70 motion-composite" style={glowStyle3} />
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full motion-composite animate-glow-slow-1" style={glowStyle1} />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full motion-composite animate-glow-slow-2" style={glowStyle2} />
+        <div className="absolute top-[30%] left-[25%] w-[40%] h-[40%] rounded-full opacity-70 motion-composite animate-glow-slow-1" style={glowStyle3} />
 
         {/* Dynamic, visually responsive high-fidelity tilted glass sheets replication */}
         <div className="absolute right-[-150px] top-[10%] hidden xl:flex lg:flex-col items-center gap-0 pointer-events-none select-none opacity-25 mix-blend-screen scale-110">
